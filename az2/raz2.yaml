@@ -1,0 +1,45 @@
+apiVersion: cassandra.datastax.com/v1beta1
+kind: CassandraDatacenter
+metadata:
+  name: operator
+  namespace: az2
+spec:
+  auth:
+    superuser:
+      secret: cassandra-admin-secret
+  additionalSeeds: [ 172.17.0.6 ]
+  clusterName: teads
+  serverType: cassandra
+  serverVersion: "3.11.7"
+  allowMultipleNodesPerWorker: true
+  managementApiAuth:
+    insecure: {}
+  size: 1
+  storageConfig:
+    cassandraDataVolumeClaimSpec:
+      storageClassName: local-path
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+  racks:
+    - name: az2
+  config:    
+    cassandra-yaml:
+      authenticator: org.apache.cassandra.auth.PasswordAuthenticator
+      authorizer: org.apache.cassandra.auth.CassandraAuthorizer
+      role_manager: org.apache.cassandra.auth.CassandraRoleManager
+    jvm-options:
+      initial_heap_size: "200M"
+      max_heap_size: "200M"
+      additional-jvm-opts:
+        - "-Ddse.system_distributed_replication_dc_names=dc1"
+        - "-Ddse.system_distributed_replication_per_dc=3"
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1000m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
