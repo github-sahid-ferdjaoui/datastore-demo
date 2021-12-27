@@ -1,13 +1,13 @@
 apiVersion: cassandra.datastax.com/v1beta1
 kind: CassandraDatacenter
 metadata:
-  name: operator
+  name: dc1
   namespace: az2
 spec:
   auth:
     superuser:
       secret: cassandra-admin-secret
-  additionalSeeds: [ 172.17.0.6 ]
+  additionalSeeds: [ ]
   clusterName: teads
   serverType: cassandra
   serverVersion: "3.11.7"
@@ -35,7 +35,6 @@ spec:
       max_heap_size: "200M"
       additional-jvm-opts:
         - "-Ddse.system_distributed_replication_dc_names=dc1"
-        - "-Ddse.system_distributed_replication_per_dc=3"
   resources:
     requests:
       memory: 1Gi
