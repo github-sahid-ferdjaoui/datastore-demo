@@ -7,7 +7,7 @@ spec:
   auth:
     superuser:
       secret: cassandra-admin-secret
-  additionalSeeds: [ ]
+  additionalSeeds: [ 172.17.0.8 ]
   clusterName: teads
   serverType: cassandra
   serverVersion: "3.11.7"
